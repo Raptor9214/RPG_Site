@@ -1,0 +1,267 @@
+@page "/"
+@inject IJSRuntime JS
+
+<h1 style="text-align:center; color:white; margin-top:20px;">Ficha de Personagem</h1>
+
+<div class="page">
+
+    @if (abaAtual == 0)
+{
+    <h2>Capa</h2>
+
+    <div class="foto-quadro">
+        @if (!string.IsNullOrEmpty(fotoBase64))
+        {
+            <img src="@fotoBase64" />
+        }
+        else
+        {
+            <span>Foto opcional</span>
+        }
+    </div>
+
+    <label style="text-align: center;">Escolher foto do personagem (opcional)</label>
+
+    <div class="botao-centro">
+        <button class="btn-upload" @onclick="AbrirInputFile">
+            Selecionar arquivo
+        </button>
+    </div>
+
+    <!-- InputFile escondido -->
+    <InputFile id="inputFoto" OnChange="CarregarFoto" style="display:none" />
+    <input placeholder="Jogador" @bind="jogador" @oninput="SalvarDebounce" />
+    <input placeholder="Personagem" @bind="personagem" @oninput="SalvarDebounce" />
+}
+
+    @if (abaAtual == 1)
+    {
+        <h2>Informações Básicas</h2>
+        <div class="informacoes-basicas">
+            <label>Classe</label>
+            <input @bind="Classe" @oninput="SalvarDebounce" type="text" />
+
+            <label>Subclasse</label>
+            <input @bind="Subclasse" @oninput="SalvarDebounce" type="text" />
+
+            <label>Nível</label>
+            <input type="number" @bind="Nivel" @oninput="SalvarDebounce" />
+
+            <label>Raça</label>
+            <input @bind="Raca" @oninput="SalvarDebounce" type="text" />
+
+            <label>Antecedente</label>
+            <input @bind="Antecedente" @oninput="SalvarDebounce" type="text" />
+
+            <label>Tendência</label>
+            <input @bind="Tendencia" @oninput="SalvarDebounce" type="text" />
+        </div>
+    }
+
+    @if (abaAtual == 2)
+    {
+        <h2>Características Físicas</h2>
+        <textarea class="Caracteristicas" placeholder="Altura, peso, olhos, cabelo, pele..."
+                  @bind="caracteristicasFisicas" @oninput="SalvarDebounce"></textarea>
+    }
+
+    @if (abaAtual == 3)
+    {
+        <h2>História do Personagem</h2>
+        <textarea class="Historia" placeholder="Origem, eventos marcantes..."
+                  @bind="historia" @oninput="SalvarDebounce"></textarea>
+    }
+
+    @if (abaAtual == 4)
+    {
+        <h2>Atributos</h2>
+
+        <label>Força</label>
+        <input type="number" @bind="forca" @oninput="SalvarDebounce" />
+
+        <label>Destreza</label>
+        <input type="number" @bind="destreza" @oninput="SalvarDebounce" />
+
+        <label>Constituição</label>
+        <input type="number" @bind="constituicao" @oninput="SalvarDebounce" />
+
+        <label>Inteligência</label>
+        <input type="number" @bind="inteligencia" @oninput="SalvarDebounce" />
+
+        <label>Sabedoria</label>
+        <input type="number" @bind="sabedoria" @oninput="SalvarDebounce" />
+
+        <label>Carisma</label>
+        <input type="number" @bind="carisma" @oninput="SalvarDebounce" />
+    }
+
+    @if (abaAtual == 5)
+    {
+        <h2>Perícias / Idiomas / Inventário / Magias</h2>
+
+        <textarea placeholder="Perícias" @bind="pericias" @oninput="SalvarDebounce"></textarea>
+        <textarea placeholder="Idiomas" @bind="idiomas" @oninput="SalvarDebounce"></textarea>
+        <textarea placeholder="Inventário" @bind="inventario" @oninput="SalvarDebounce"></textarea>
+        <textarea placeholder="Magias / Feitiços" @bind="magias" @oninput="SalvarDebounce"></textarea>
+    }
+
+    <div class="nav-buttons">
+        <button @onclick="Anterior">⬅ Anterior</button>
+        <button @onclick="Proxima">Próxima ➡</button>
+    </div>
+</div>
+
+@code {
+    int abaAtual = 0;
+    private InputFile inputFileElement;
+
+    // Corrigido: array de abas agora tem 6 elementos
+    string[] abas = {
+        "Capa", "Informações Básicas", "Características", "História", "Atributos", "Perícias"
+    };
+
+    // Dados
+    string campanha = "";
+    string jogador = "";
+    string personagem = "";
+    string fotoBase64 = "";
+    string Classe { get; set; } = "";
+    string Subclasse { get; set; } = "";
+    int Nivel { get; set; } = 1;
+    string Raca { get; set; } = "";
+    string Antecedente { get; set; } = "";
+    string Tendencia { get; set; } = "";
+
+    string caracteristicasFisicas = "";
+    string historia = "";
+    int forca, destreza, constituicao, inteligencia, sabedoria, carisma;
+    string pericias = "";
+    string idiomas = "";
+    string inventario = "";
+    string magias = "";
+
+    CancellationTokenSource? debounceCts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Carregar();
+    }
+
+    async Task Salvar()
+    {
+        var ficha = new
+        {
+            jogador, personagem,
+            Classe, Subclasse, Nivel, Raca, Antecedente, Tendencia,
+            caracteristicasFisicas, historia,
+            forca, destreza, constituicao, inteligencia, sabedoria, carisma,
+            pericias, idiomas, inventario, magias
+        };
+
+        await JS.InvokeVoidAsync("localStorage.setItem", "fichaDND",
+            System.Text.Json.JsonSerializer.Serialize(ficha));
+    }
+
+    async Task SalvarDebounce()
+    {
+        debounceCts?.Cancel();
+        debounceCts = new CancellationTokenSource();
+        try
+        {
+            await Task.Delay(500, debounceCts.Token);
+            await Salvar();
+        }
+        catch (TaskCanceledException) { }
+    }
+
+    async Task Carregar()
+{
+    string json = await JS.InvokeAsync<string>("localStorage.getItem", "fichaDND");
+    if (!string.IsNullOrEmpty(json))
+    {
+        var ficha = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(json);
+
+        campanha = ficha["campanha"]?.ToString() ?? "";
+        jogador = ficha["jogador"]?.ToString() ?? "";
+        personagem = ficha["personagem"]?.ToString() ?? "";
+
+        Classe = ficha["Classe"]?.ToString() ?? "";
+        Subclasse = ficha["Subclasse"]?.ToString() ?? "";
+
+        // Corrige int.TryParse para propriedades usando variável temporária
+        if (int.TryParse(ficha["Nivel"]?.ToString(), out int nivelTemp))
+            Nivel = nivelTemp;
+
+        Raca = ficha["Raca"]?.ToString() ?? "";
+        Antecedente = ficha["Antecedente"]?.ToString() ?? "";
+        Tendencia = ficha["Tendencia"]?.ToString() ?? "";
+
+        caracteristicasFisicas = ficha["caracteristicasFisicas"]?.ToString() ?? "";
+        historia = ficha["historia"]?.ToString() ?? "";
+
+        if (int.TryParse(ficha["forca"]?.ToString(), out int forcaTemp))
+            forca = forcaTemp;
+        if (int.TryParse(ficha["destreza"]?.ToString(), out int destrezaTemp))
+            destreza = destrezaTemp;
+        if (int.TryParse(ficha["constituicao"]?.ToString(), out int constituicaoTemp))
+            constituicao = constituicaoTemp;
+        if (int.TryParse(ficha["inteligencia"]?.ToString(), out int inteligenciaTemp))
+            inteligencia = inteligenciaTemp;
+        if (int.TryParse(ficha["sabedoria"]?.ToString(), out int sabedoriaTemp))
+            sabedoria = sabedoriaTemp;
+        if (int.TryParse(ficha["carisma"]?.ToString(), out int carismaTemp))
+            carisma = carismaTemp;
+
+        pericias = ficha["pericias"]?.ToString() ?? "";
+        idiomas = ficha["idiomas"]?.ToString() ?? "";
+        inventario = ficha["inventario"]?.ToString() ?? "";
+        magias = ficha["magias"]?.ToString() ?? "";
+    }
+}
+
+
+   // Abre o seletor de arquivos chamando JS
+async Task AbrirInputFile()
+{
+    await JS.InvokeVoidAsync("clicarInputFile", "inputFoto");
+}
+
+// Carrega a imagem selecionada e salva no localStorage
+async Task CarregarFoto(InputFileChangeEventArgs e)
+{
+    var file = e.File;
+    if (file != null)
+    {
+        // Limitar tamanho para evitar travamento
+        long maxSize = 2 * 1024 * 1024; // 2MB
+        var stream = file.OpenReadStream(maxSize);
+        var buffer = new byte[file.Size];
+        await stream.ReadAsync(buffer);
+
+        fotoBase64 = $"data:{file.ContentType};base64,{Convert.ToBase64String(buffer)}";
+
+        // Salvar no localStorage
+        await JS.InvokeVoidAsync("localStorage.setItem", "fichaFoto", fotoBase64);
+
+        StateHasChanged();
+    }
+}
+
+    async Task Anterior()
+    {
+        if (abaAtual > 0)
+        {
+            abaAtual--;
+            await JS.InvokeVoidAsync("playPageSound");
+        }
+    }
+
+    async Task Proxima()
+    {
+        if (abaAtual < abas.Length - 1)
+        {
+            abaAtual++;
+            await JS.InvokeVoidAsync("playPageSound");
+        }
+    }
+}

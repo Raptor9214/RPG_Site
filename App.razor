@@ -1,0 +1,14 @@
+﻿@namespace RPG_Site
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(RPG_Site.MainLayout)" />
+        <HeadOutlet />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(RPG_Site.MainLayout)">
+            <p>Página não encontrada.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
