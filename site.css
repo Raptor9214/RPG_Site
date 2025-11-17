@@ -12,17 +12,24 @@ body {
 
 /* Área que imita página de livro */
 .page {
-    width: 50%;
+    width: 100%;
+    max-width: 900px;   /* controla o tamanho ideal */
     margin: 40px auto;
     padding: 40px;
+
     background-image: url('parchment.png');
-    background-size: contain;
+    background-size: cover;    /* melhor para preencher o papel */
     background-repeat: no-repeat;
     background-position: center;
+
     min-height: 600px;
+
     display: flex;
     flex-direction: column;
+
+    border-radius: 12px;
 }
+
 
 /* Botões de navegação tipo livro */
 .nav-buttons {
@@ -106,3 +113,16 @@ input:focus, textarea:focus{
     justify-content: center;
     margin: 10px 0;
 }
+
+@media (max-width: 600px) {
+    .page {
+        padding: 20px;
+        max-width: 95%;
+    }
+
+    .Caracteristicas,
+    .Historia {
+        height: 250px;
+    }
+}
+
