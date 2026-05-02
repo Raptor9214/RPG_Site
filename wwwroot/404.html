@@ -4,10 +4,16 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script>
-        // salva URL original
-        sessionStorage.redirect = location.href;
-        // volta para raiz do app
-        location.href = "/RPG_Site/";
+        (function () {
+            // pega URL completa
+            const path = location.pathname + location.search + location.hash;
+
+            // salva rota original
+            sessionStorage.redirect = path;
+
+            // manda para raiz do app
+            location.replace("/RPG_Site/");
+        })();
     </script>
 </head>
 <body></body>
