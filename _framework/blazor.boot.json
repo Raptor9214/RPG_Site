@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "RPG_site",
   "resources": {
-    "hash": "sha256-tooHONjD75e/f4lhstNDMyS68MF1NFw82J11nljICwE=",
+    "hash": "sha256-V6FepKBU/NwV4NbZNktVwBqNCBFJdt3kHTM8qi024DI=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Authorization.is84zt9n9u.wasm": "Microsoft.AspNetCore.Authorization.wasm",
       "Microsoft.AspNetCore.Components.3zig3jhz80.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -201,8 +201,8 @@
       "icudt_CJK.tjcz0u77k5.dat": "icudt_CJK.dat",
       "icudt_EFIGS.tptq2av103.dat": "icudt_EFIGS.dat",
       "icudt_no_CJK.lfu7j35m59.dat": "icudt_no_CJK.dat",
-      "RPG_site.5hl87u9bd5.wasm": "RPG_site.wasm",
-      "RPG_site.uz4b0born0.pdb": "RPG_site.pdb"
+      "RPG_site.1ttxq9k68v.wasm": "RPG_site.wasm",
+      "RPG_site.ry0wufnqu1.pdb": "RPG_site.pdb"
     },
     "jsModuleNative": {
       "dotnet.native.xto5am0qhx.js": "sha256-9e5Vqt0u8nYMGCHU4JfYqrYQExAw3bgi5UYzATgvoJE="
@@ -412,10 +412,10 @@
       "WindowsBase.5f1yvnaer4.wasm": "sha256-sZbAt8RTAmg0USTJj6J32jxvlakGs2AutNm/Bbr5Sc8=",
       "mscorlib.sx4ehutq6w.wasm": "sha256-gLaFs2FD2zCxDmOFrpTh9Y37En7r1yCv1BpjcPkFpgA=",
       "netstandard.ck9kwje9e5.wasm": "sha256-bNmBHwwBfUwMiL+sza9G3xQiNjeEtZksW9XVhj3ravI=",
-      "RPG_site.5hl87u9bd5.wasm": "sha256-R/JhMPR0iWGl2TnYyff+Z85vDwwNdKqL1NJ5Jt6Qfvs="
+      "RPG_site.1ttxq9k68v.wasm": "sha256-2wwnFQJ4dJPFCAFonATRYnnzdgbNUFTQ+xh4M4OV5AI="
     },
     "pdb": {
-      "RPG_site.uz4b0born0.pdb": "sha256-9sXRsPBcsCOyTgnp5ANxVaD5mvJTMDD0blLVK3J6pqU="
+      "RPG_site.ry0wufnqu1.pdb": "sha256-4zamiyoe0VJcFyyp139Lbhly1Sr0brmdgsrgZ5L0a1c="
     }
   },
   "cacheBootResources": true,
