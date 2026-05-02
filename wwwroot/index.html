@@ -49,6 +49,18 @@
         document.getElementById(id).click();
     };
 </script>
+    <script>
+    (function () {
+        const redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+
+        if (redirect) {
+            const base = "/RPG_Site/";
+            const path = redirect.replace(location.origin + base, "");
+            history.replaceState(null, null, base + path);
+        }
+    })();
+</script>
 
 </body>
 
