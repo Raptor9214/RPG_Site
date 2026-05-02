@@ -5,21 +5,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RPG_site</title>
+
     <base href="/RPG_Site/" />
 
-    <!-- CSS externo -->
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link href="RPG_site.styles.css" rel="stylesheet" />
     <link href="site.css" rel="stylesheet" />
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png" />
 </head>
 
 <body>
     <div id="app">
-        <!-- Loading simplificado -->
         <svg class="loading-progress">
             <circle r="40%" cx="50%" cy="50%" />
             <circle r="40%" cx="50%" cy="50%" />
@@ -33,9 +31,19 @@
         <span class="dismiss">🗙</span>
     </div>
 
-    <!-- Scripts -->
+    <!-- 🔥 RESTAURA ROTAS DO 404 -->
     <script>
-        // Tocar som de virada de página
+        (function () {
+            const redirect = sessionStorage.redirect;
+            delete sessionStorage.redirect;
+
+            if (redirect) {
+                history.replaceState(null, null, redirect);
+            }
+        })();
+    </script>
+
+    <script>
         window.playPageSound = () => {
             const audio = new Audio('page_turn.mp3');
             audio.volume = 0.4;
@@ -43,13 +51,13 @@
         };
     </script>
 
-    <script src="_framework/blazor.webassembly.js"></script>
     <script>
-    window.clicarInputFile = (id) => {
-        document.getElementById(id).click();
-    };
-</script>
+        window.clicarInputFile = (id) => {
+            document.getElementById(id).click();
+        };
+    </script>
 
+    <script src="_framework/blazor.webassembly.js"></script>
 </body>
 
 </html>
