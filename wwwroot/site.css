@@ -1,0 +1,351 @@
+/* Corpo da página */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+<<<<<<< HEAD
+    font-weight: bold;
+    color: #1d0d00;
+}
+
+/* Área que imita página de livro */
+.fundo {
+    width: 70%;
+    margin: 10px auto;
+    min-height: 1325px;
+    position: relative;
+    background-image: url('parchment.png');
+    background-size: auto 110%;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    padding-top: 5%;
+    padding-bottom: 5%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.ficha {
+    width: 80%;
+    margin: 20px auto;
+    padding: 5%;
+
+=======
+}
+
+/* Área que imita página de livro */
+.page {
+    width: 50%;
+    margin: 40px auto;
+    padding: 40px;
+    background-image: url('parchment.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 600px;
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+    display: flex;
+    flex-direction: column;
+}
+
+/* Botões de navegação tipo livro */
+<<<<<<< HEAD
+.btn-dados,
+.rolada,
+.btn-back {
+    width: 100%;
+    display: flex;
+    margin-top: auto;
+    margin: auto;
+    justify-content: center;
+}
+
+.btn-dados,
+.rolada,
+.btn-back,
+.result,
+.escolha {
+=======
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.nav-buttons button,
+.btn-upload {
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #7a4f2b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+<<<<<<< HEAD
+.btn-dados:hover,
+.rolada:hover,
+.btn-back:hover,
+.escolha:hover {
+=======
+.nav-buttons button:hover,
+.btn-upload:hover {
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+    background-color: #633f22;
+}
+
+/* Quadro de foto */
+.foto-quadro {
+<<<<<<< HEAD
+    width: 270px;
+    height: 270px;
+=======
+    width: 220px;
+    height: 220px;
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+    margin: 0 auto 15px auto;
+    border: 3px solid #633f22;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+<<<<<<< HEAD
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    position: relative;
+    flex: 0 0 auto;
+=======
+    background-color: rgba(255,255,255,0.1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    overflow: hidden;
+    position: relative;
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+}
+
+.foto-quadro img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.foto-quadro span {
+    color: #aaa;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Inputs e Textareas */
+<<<<<<< HEAD
+input,
+textarea {
+=======
+input, textarea {
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+    border-radius: 10px;
+    border: 3px solid #7a4e2b;
+    background-color: #7a4e2b11;
+    padding: 8px;
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.2s;
+    transition: border 0.2s;
+}
+
+<<<<<<< HEAD
+input:focus,
+textarea:focus {
+=======
+input:focus, textarea:focus{
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+    border: 3px solid #633f22;
+    background-color: #633f2211;
+    outline: none;
+}
+<<<<<<< HEAD
+
+/* Textareas grandes */
+.descricao {
+    height: 214px;
+=======
+/* Textareas grandes */
+.Caracteristicas,
+.Historia {
+    height: 400px;
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+}
+
+/* Botão centralizado */
+.botao-centro {
+<<<<<<< HEAD
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.invisivel {
+    opacity: 0;
+}
+
+/* Chrome, Edge, Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.barra-vida {
+    position: relative;
+    width: 100%;
+    height: 35px;
+
+    background: #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* preenchimento */
+.vida {
+    position: absolute;
+    height: 100%;
+    left: 0;
+    background: red;
+}
+
+/* texto central */
+.texto {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    color: white;
+    font-weight: bold;
+}
+
+/* inputs do HP */
+.hp-input {
+    width: 60px;
+    text-align: center;
+
+    background: transparent;
+    border: none;
+    color: white;
+    font-weight: bold;
+
+    outline: none;
+}
+
+/* botões */
+.btn-hp {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 40px;
+
+    border: none;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.esquerda {
+    left: 0;
+}
+
+.direita {
+    right: 0;
+}
+
+html {
+    font-size: 12px;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.controls input,
+.controls select {
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.result {
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.crit {
+    color: gold;
+    font-weight: bold;
+    font-size: 18px;
+    justify-content: center;
+}
+
+.history {
+    list-style: none;
+    padding: 0;
+}
+
+.history li {
+    padding: 4px;
+    border-bottom: 1px solid #333;
+}
+
+.rolling {
+    font-size: 18px;
+    font-weight: bold;
+    animation: blink 0.6s infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.2;
+    }
+}
+=======
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637

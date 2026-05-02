@@ -1,0 +1,143 @@
+{
+  "format": 1,
+  "restore": {
+<<<<<<< HEAD
+    "C:\\C# Vs code\\RPG_Site-Main\\RPG_site.csproj": {}
+  },
+  "projects": {
+    "C:\\C# Vs code\\RPG_Site-Main\\RPG_site.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\C# Vs code\\RPG_Site-Main\\RPG_site.csproj",
+        "projectName": "RPG_site",
+        "projectPath": "C:\\C# Vs code\\RPG_Site-Main\\RPG_site.csproj",
+        "packagesPath": "C:\\Users\\Felipe Castilho\\.nuget\\packages\\",
+        "outputPath": "C:\\C# Vs code\\RPG_Site-Main\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Felipe Castilho\\AppData\\Roaming\\NuGet\\NuGet.Config"
+=======
+    "C:\\C# Vs code\\RPG_Site\\RPG_site.csproj": {}
+  },
+  "projects": {
+    "C:\\C# Vs code\\RPG_Site\\RPG_site.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\C# Vs code\\RPG_Site\\RPG_site.csproj",
+        "projectName": "RPG_site",
+        "projectPath": "C:\\C# Vs code\\RPG_Site\\RPG_site.csproj",
+        "packagesPath": "C:\\Users\\Felipe Castilho\\.nuget\\packages\\",
+        "outputPath": "C:\\C# Vs code\\RPG_Site\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Felipe Castilho\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+<<<<<<< HEAD
+=======
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Components.WebAssembly": {
+              "target": "Package",
+              "version": "[9.0.11, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.11, )"
+            },
+            "Microsoft.NET.ILLink.Tasks": {
+              "suppressParent": "All",
+              "target": "Package",
+<<<<<<< HEAD
+              "version": "[9.0.15, )",
+=======
+              "version": "[9.0.11, )",
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+              "autoReferenced": true
+            },
+            "Microsoft.NET.Sdk.WebAssembly.Pack": {
+              "suppressParent": "All",
+              "target": "Package",
+<<<<<<< HEAD
+              "version": "[9.0.15, )",
+=======
+              "version": "[9.0.11, )",
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
+<<<<<<< HEAD
+              "version": "[9.0.15, 9.0.15]"
+=======
+              "version": "[9.0.11, 9.0.11]"
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+<<<<<<< HEAD
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
+=======
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.307/PortableRuntimeIdentifierGraph.json"
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+        }
+      },
+      "runtimes": {
+        "browser-wasm": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

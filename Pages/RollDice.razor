@@ -1,0 +1,144 @@
+@page "/dados"
+@implements IDisposable
+@inject NavigationManager Nav
+
+<h1 style="text-align:center; color:white; margin-top:20px; font-size:32px;">Ficha do Personagem</h1>
+
+<div class="fundo">
+    <div class="ficha">
+        <h2>Rolagem de dados</h2>
+        <div class="controls">
+            <div style="width: 100%;">
+                <label>Dado:</label>
+                <select class="escolha" style="font-size: 12px;" @bind="SelectedDice">
+                    @foreach (var d in DiceTypes)
+                    {
+                        <option value="@d">@($"D{d}")</option>
+                    }
+                </select>
+            </div>
+            <label>Qtd:</label>
+            <input type="number" @bind="Quantity" min="1" max="20" />
+
+            <label>Bônus:</label>
+            <input type="number" @bind="Bonus" />
+
+            <button class="rolada" @onclick="Roll" disabled="@IsRolling">
+                Rolar dados
+            </button>
+        </div>
+
+        @if (IsRolling)
+        {
+            <div class="rolling">
+                Rolando...
+            </div>
+        }
+
+        @if (LastRolls.Any())
+        {
+            <div class="result">
+                <h4 style="color:white;">Resultado:</h4>
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                Dados: @string.Join(", ", LastRolls.Select(r => r.Value))
+                            </p>
+                        </div>
+                        <div class="col">
+                            <p>
+                                Bônus: @Bonus
+                            </p>
+                        </div>
+                        <div class="col">
+                            <p>
+                                Total: <strong>@Total</strong>
+                            </p>
+                        </div>
+                    </div>
+                    @if (IsCritical)
+                    {
+                        <p class="crit">CRÍTICO NATURAL!</p>
+                    }
+                </div>
+            }
+
+            <button class="btn-back" style="margin-top: 10px;" @onclick="Voltar">
+                ⬅ Voltar
+            </button>
+
+            <hr />
+
+            <h2>Histórico</h2>
+
+            <ul class="history">
+                @foreach (var h in History)
+                {
+                    <li>@h</li>
+                }
+            </ul>
+        </div>
+    </div>
+
+@code {
+    private int[] DiceTypes = new[] { 4, 6, 8, 10, 12, 20 };
+
+    private int SelectedDice = 20;
+    private int Quantity = 1;
+    private int Bonus = 0;
+
+    private void Voltar()
+    {
+        Nav.NavigateTo("/");
+    }
+    private bool IsRolling = false;
+
+    private List<RollResult> LastRolls = new();
+    private List<string> History = new();
+
+    private int Total = 0;
+    private bool IsCritical = false;
+
+    private Random random = new();
+
+    private async Task Roll()
+    {
+        IsRolling = true;
+        StateHasChanged();
+
+        await Task.Delay(600); // animação fake de rolagem
+
+        LastRolls.Clear();
+        Total = 0;
+        IsCritical = false;
+
+        for (int i = 0; i < Quantity; i++)
+        {
+            int value = random.Next(1, SelectedDice + 1);
+
+            LastRolls.Add(new RollResult(value));
+
+            Total += value;
+
+            // crítico só faz sentido no d20
+            if (SelectedDice == 20 && value == 20)
+                IsCritical = true;
+        }
+
+        Total += Bonus;
+
+        History.Insert(0,
+            $"{Quantity}d{SelectedDice} +{Bonus} = {Total} ({string.Join(",", LastRolls.Select(x => x.Value))})"
+        );
+
+        IsRolling = false;
+    }
+
+    public void Dispose() { }
+
+    private class RollResult
+    {
+        public int Value { get; set; }
+        public RollResult(int v) => Value = v;
+    }
+}

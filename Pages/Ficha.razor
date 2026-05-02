@@ -1,0 +1,619 @@
+@page "/"
+<<<<<<< HEAD
+@using System.Reflection.Emit
+@inject IJSRuntime JS
+@inject NavigationManager Nav
+
+<h1 style="text-align:center; color:white; margin-top:20px; font-size:32px;">Ficha do Personagem</h1>
+
+<div class="fundo">
+    <div class="ficha">
+        @if (abaAtual == 0)
+        {
+            <div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col">
+                        <h2>Foto</h2>
+                        <div class="foto-quadro">
+                            @if (!string.IsNullOrEmpty(fotoBase64))
+                            {
+                                <img src="@fotoBase64" />
+                            }
+
+                            <button class="botao-centro @(string.IsNullOrEmpty(fotoBase64) ? "" : "invisivel")"
+                                    @onclick="AbrirInputFile">
+                                Fazer upload de foto
+                            </button>
+                        </div>
+                        <div class="barra-vida">
+
+                            <!-- diminuir -->
+                            <button class="btn-hp esquerda" @onmousedown="() => ComecarAlterar(-1)"
+                                    @onmouseup="PararAlterar" @onmouseleave="PararAlterar">
+                                ◀
+                            </button>
+
+                            <!-- barra visual -->
+                            <div class="vida" style="width:@($"{PorcentagemHP}%")"></div>
+
+                            <!-- TEXTO EDITÁVEL -->
+                            <div class="texto">
+                                <input type="number" class="hp-input" @bind="HP" min="0" max="@HPMax" />
+                                /
+                                <input type="number" class="hp-input" @bind="HPMax" min="1" />
+                            </div>
+
+                            <!-- aumentar -->
+                            <button class="btn-hp direita" @onmousedown="() => ComecarAlterar(1)" @onmouseup="PararAlterar"
+                                    @onmouseleave="PararAlterar">
+                                ▶
+                            </button>
+
+                        </div>
+                        <label style="margin-top: 6px;">Descrição</label>
+                        <textarea class="descricao" placeholder="Descreva sua História, aparência,..." @bind="descricao"
+                                  @oninput="SalvarDebounce"></textarea>
+                    </div>
+
+                    
+                    <!-- InputFile escondido -->
+                    <InputFile id="inputFoto" OnChange="CarregarFoto" style="display:none" />
+                    <div class="col">
+                        <h2>Informações Básicas</h2>
+                        <label>Jogador</label>
+                        <input placeholder="Digite o nome do jogador" @bind="jogador" @oninput="SalvarDebounce" />
+                        <label>Personagem</label>
+                        <input placeholder="Digite o nome do personagem" @bind="personagem" @oninput="SalvarDebounce" />
+                        <div class="row">
+                            <div class="col">
+                                <label>Nível</label>
+                                <input type="number" min="1" step="1" onkeydown="return event.key !== '-'" @bind="Nivel"
+                                       @oninput="SalvarDebounce" />
+                            </div>
+                            <div class="col">
+                                <label>CA</label>
+                                <input type="number" min="0" step="1" onkeydown="return event.key !== '-'" @bind="CA"
+                                       @oninput="SalvarDebounce" />
+                            </div>
+                            <div class="col">
+                                <label>Dinheiro</label>
+                                <input type="number" min="0" @bind="Dinheiro"
+                                       @oninput="SalvarDebounce" />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <button class="btn-dados" style="margin-top: 10px;" @onclick="GoToDados">
+                                Rolagem de dados
+                            </button>
+                        </div>
+                        <h2>Sobre o Personagem</h2>
+                        <div class="informacoes-basicas">
+                            <label>Classe</label>
+                            <input @bind="Classe" @oninput="SalvarDebounce" type="text" />
+
+                            <label>Subclasse</label>
+                            <input @bind="Subclasse" @oninput="SalvarDebounce" type="text" />
+
+                            <label>Raça</label>
+                            <input @bind="Raca" @oninput="SalvarDebounce" type="text" />
+
+                            <label>Antecedente</label>
+                            <input @bind="Antecedente" @oninput="SalvarDebounce" type="text" />
+
+                            <label>Tendência</label>
+                            <input @bind="Tendencia" @oninput="SalvarDebounce" type="text" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h2>Atributos</h2>
+                    <div class="col">
+                        <label>Força</label>
+                        <input type="number" min="0" step="1" onkeydown="return event.key !== '-'" @bind="forca"
+                               @oninput="SalvarDebounce" />
+
+                        <label>Inteligência</label>
+                        <input type="number" min="0" step="1" onkeydown="return event.key !== '-'" @bind="inteligencia"
+                               @oninput="SalvarDebounce" />
+                    </div>
+
+                    <div class="col">
+                        <label>Destreza</label>
+                        <input type="number" min="0" step="1" onkeydown="return event.key !== '-'" @bind="destreza"
+                               @oninput="SalvarDebounce" />
+
+                        <label>Sabedoria</label>
+                        <input type="number" min="0" step="1" onkeydown="return event.key !== '-'" @bind="sabedoria"
+                               @oninput="SalvarDebounce" />
+                    </div>
+
+                    <div class="col">
+                        <label>Constituição</label>
+                        <input type="number" min="0" step="1" onkeydown="return event.key !== '-'" @bind="constituicao"
+                               @oninput="SalvarDebounce" />
+                               
+                        <label>Carisma</label>
+                        <input type="number" min="0" step="1" onkeydown="return event.key !== '-'" @bind="carisma"
+                               @oninput="SalvarDebounce" />
+                    </div>
+                </div>
+                <h2>Inventário</h2>
+                <div class="row">
+                    <div class="col">
+                        <label>Perícias</label>
+                        <textarea @bind="pericias" @oninput="SalvarDebounce"></textarea>
+
+                        <label>Itens</label>
+                        <textarea @bind="itens" @oninput="SalvarDebounce"></textarea>
+
+                        <label>Consumíveis</label>
+                        <textarea @bind="consumiveis" @oninput="SalvarDebounce"></textarea>
+                    </div>
+                    <div class="col">
+                        <label>Idiomas</label>
+                        <textarea @bind="idiomas" @oninput="SalvarDebounce"></textarea>
+
+                        <label>Equipamentos</label>
+                        <textarea @bind="equipamentos" @oninput="SalvarDebounce"></textarea>
+                        
+                        <label>Feitiços</label>
+                        <textarea @bind="feiticos" @oninput="SalvarDebounce"></textarea>
+                    </div>
+                </div>
+            </div>
+        }
+=======
+@inject IJSRuntime JS
+
+<h1 style="text-align:center; color:white; margin-top:20px;">Ficha de Personagem</h1>
+
+<div class="page">
+
+    @if (abaAtual == 0)
+{
+    <h2>Capa</h2>
+
+    <div class="foto-quadro">
+        @if (!string.IsNullOrEmpty(fotoBase64))
+        {
+            <img src="@fotoBase64" />
+        }
+        else
+        {
+            <span>Foto opcional</span>
+        }
+    </div>
+
+    <label style="text-align: center;">Escolher foto do personagem (opcional)</label>
+
+    <div class="botao-centro">
+        <button class="btn-upload" @onclick="AbrirInputFile">
+            Selecionar arquivo
+        </button>
+    </div>
+
+    <!-- InputFile escondido -->
+    <InputFile id="inputFoto" OnChange="CarregarFoto" style="display:none" />
+    <input placeholder="Jogador" @bind="jogador" @oninput="SalvarDebounce" />
+    <input placeholder="Personagem" @bind="personagem" @oninput="SalvarDebounce" />
+}
+
+    @if (abaAtual == 1)
+    {
+        <h2>Informações Básicas</h2>
+        <div class="informacoes-basicas">
+            <label>Classe</label>
+            <input @bind="Classe" @oninput="SalvarDebounce" type="text" />
+
+            <label>Subclasse</label>
+            <input @bind="Subclasse" @oninput="SalvarDebounce" type="text" />
+
+            <label>Nível</label>
+            <input type="number" @bind="Nivel" @oninput="SalvarDebounce" />
+
+            <label>Raça</label>
+            <input @bind="Raca" @oninput="SalvarDebounce" type="text" />
+
+            <label>Antecedente</label>
+            <input @bind="Antecedente" @oninput="SalvarDebounce" type="text" />
+
+            <label>Tendência</label>
+            <input @bind="Tendencia" @oninput="SalvarDebounce" type="text" />
+        </div>
+    }
+
+    @if (abaAtual == 2)
+    {
+        <h2>Características Físicas</h2>
+        <textarea class="Caracteristicas" placeholder="Altura, peso, olhos, cabelo, pele..."
+                  @bind="caracteristicasFisicas" @oninput="SalvarDebounce"></textarea>
+    }
+
+    @if (abaAtual == 3)
+    {
+        <h2>História do Personagem</h2>
+        <textarea class="Historia" placeholder="Origem, eventos marcantes..."
+                  @bind="historia" @oninput="SalvarDebounce"></textarea>
+    }
+
+    @if (abaAtual == 4)
+    {
+        <h2>Atributos</h2>
+
+        <label>Força</label>
+        <input type="number" @bind="forca" @oninput="SalvarDebounce" />
+
+        <label>Destreza</label>
+        <input type="number" @bind="destreza" @oninput="SalvarDebounce" />
+
+        <label>Constituição</label>
+        <input type="number" @bind="constituicao" @oninput="SalvarDebounce" />
+
+        <label>Inteligência</label>
+        <input type="number" @bind="inteligencia" @oninput="SalvarDebounce" />
+
+        <label>Sabedoria</label>
+        <input type="number" @bind="sabedoria" @oninput="SalvarDebounce" />
+
+        <label>Carisma</label>
+        <input type="number" @bind="carisma" @oninput="SalvarDebounce" />
+    }
+
+    @if (abaAtual == 5)
+    {
+        <h2>Perícias / Idiomas / Inventário / Magias</h2>
+
+        <textarea placeholder="Perícias" @bind="pericias" @oninput="SalvarDebounce"></textarea>
+        <textarea placeholder="Idiomas" @bind="idiomas" @oninput="SalvarDebounce"></textarea>
+        <textarea placeholder="Inventário" @bind="inventario" @oninput="SalvarDebounce"></textarea>
+        <textarea placeholder="Magias / Feitiços" @bind="magias" @oninput="SalvarDebounce"></textarea>
+    }
+
+    <div class="nav-buttons">
+        <button @onclick="Anterior">⬅ Anterior</button>
+        <button @onclick="Proxima">Próxima ➡</button>
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+    </div>
+</div>
+
+@code {
+    int abaAtual = 0;
+    private InputFile inputFileElement;
+
+    // Corrigido: array de abas agora tem 6 elementos
+    string[] abas = {
+<<<<<<< HEAD
+        "Capa", "Informações Básicas", "História", "Atributos", "Perícias"
+    };
+
+    private int hp = 70;
+    private int hpMax = 100;
+
+    private CancellationTokenSource? cts;
+
+    public int HP
+    {
+        get => hp;
+        set => hp = Math.Clamp(value, 0, HPMax);
+    }
+
+    public int HPMax
+    {
+        get => hpMax;
+        set
+        {
+            hpMax = Math.Max(1, value);
+            if (HP > hpMax)
+                HP = hpMax;
+        }
+    }
+
+    double PorcentagemHP =>
+        HPMax == 0 ? 0 : (double)HP / HPMax * 100;
+
+    private void GoToDados()
+    {
+        Nav.NavigateTo("/dados");
+    }
+
+=======
+        "Capa", "Informações Básicas", "Características", "História", "Atributos", "Perícias"
+    };
+
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+    // Dados
+    string campanha = "";
+    string jogador = "";
+    string personagem = "";
+    string fotoBase64 = "";
+    string Classe { get; set; } = "";
+    string Subclasse { get; set; } = "";
+    int Nivel { get; set; } = 1;
+<<<<<<< HEAD
+    int Dinheiro { get; set; } = 0;
+    int CA { get; set; } = 0;
+    int Dados { get; set; } = 0;
+=======
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+    string Raca { get; set; } = "";
+    string Antecedente { get; set; } = "";
+    string Tendencia { get; set; } = "";
+
+<<<<<<< HEAD
+    string descricao = "";
+    int forca, destreza, constituicao, inteligencia, sabedoria, carisma;
+    string pericias = "";
+    string idiomas = "";
+    string itens = "";
+    string equipamentos = "";
+    string consumiveis = "";
+    string feiticos = "";
+=======
+    string caracteristicasFisicas = "";
+    string historia = "";
+    int forca, destreza, constituicao, inteligencia, sabedoria, carisma;
+    string pericias = "";
+    string idiomas = "";
+    string inventario = "";
+    string magias = "";
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+
+    CancellationTokenSource? debounceCts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Carregar();
+    }
+
+    async Task Salvar()
+    {
+        var ficha = new
+        {
+<<<<<<< HEAD
+            jogador,
+            personagem,
+            Classe,
+            Subclasse,
+            Nivel,
+            Raca,
+            Antecedente,
+            Tendencia,
+            descricao,
+            forca,
+            destreza,
+            constituicao,
+            inteligencia,
+            sabedoria,
+            carisma,
+            pericias,
+            idiomas,
+            itens,
+            equipamentos,
+            consumiveis,
+            feiticos
+=======
+            jogador, personagem,
+            Classe, Subclasse, Nivel, Raca, Antecedente, Tendencia,
+            caracteristicasFisicas, historia,
+            forca, destreza, constituicao, inteligencia, sabedoria, carisma,
+            pericias, idiomas, inventario, magias
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+        };
+
+        await JS.InvokeVoidAsync("localStorage.setItem", "fichaDND",
+            System.Text.Json.JsonSerializer.Serialize(ficha));
+    }
+
+    async Task SalvarDebounce()
+    {
+        debounceCts?.Cancel();
+        debounceCts = new CancellationTokenSource();
+        try
+        {
+            await Task.Delay(500, debounceCts.Token);
+            await Salvar();
+        }
+        catch (TaskCanceledException) { }
+    }
+
+    async Task Carregar()
+<<<<<<< HEAD
+    {
+        string json = await JS.InvokeAsync<string>("localStorage.getItem", "fichaDND");
+        if (!string.IsNullOrEmpty(json))
+        {
+            var ficha = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(json);
+
+            campanha = ficha["campanha"]?.ToString() ?? "";
+            jogador = ficha["jogador"]?.ToString() ?? "";
+            personagem = ficha["personagem"]?.ToString() ?? "";
+
+            Classe = ficha["Classe"]?.ToString() ?? "";
+            Subclasse = ficha["Subclasse"]?.ToString() ?? "";
+
+            // Corrige int.TryParse para propriedades usando variável temporária
+            if (int.TryParse(ficha["Nivel"]?.ToString(), out int nivelTemp))
+                Nivel = nivelTemp;
+
+            Raca = ficha["Raca"]?.ToString() ?? "";
+            Antecedente = ficha["Antecedente"]?.ToString() ?? "";
+            Tendencia = ficha["Tendencia"]?.ToString() ?? "";
+
+            descricao = ficha["descricao"]?.ToString() ?? "";
+
+            if (int.TryParse(ficha["forca"]?.ToString(), out int forcaTemp))
+                forca = forcaTemp;
+            if (int.TryParse(ficha["destreza"]?.ToString(), out int destrezaTemp))
+                destreza = destrezaTemp;
+            if (int.TryParse(ficha["constituicao"]?.ToString(), out int constituicaoTemp))
+                constituicao = constituicaoTemp;
+            if (int.TryParse(ficha["inteligencia"]?.ToString(), out int inteligenciaTemp))
+                inteligencia = inteligenciaTemp;
+            if (int.TryParse(ficha["sabedoria"]?.ToString(), out int sabedoriaTemp))
+                sabedoria = sabedoriaTemp;
+            if (int.TryParse(ficha["carisma"]?.ToString(), out int carismaTemp))
+                carisma = carismaTemp;
+
+            pericias = ficha["pericias"]?.ToString() ?? "";
+            idiomas = ficha["idiomas"]?.ToString() ?? "";
+            itens = ficha["itens"]?.ToString() ?? "";
+            feiticos = ficha["feiticos"]?.ToString() ?? "";
+        }
+    }
+
+
+    // Abre o seletor de arquivos chamando JS
+    async Task AbrirInputFile()
+    {
+        await JS.InvokeVoidAsync("clicarInputFile", "inputFoto");
+    }
+
+    // Carrega a imagem selecionada e salva no localStorage
+    async Task CarregarFoto(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file != null)
+        {
+            // Limitar tamanho para evitar travamento
+            long maxSize = 2 * 1024 * 1024; // 2MB
+            var stream = file.OpenReadStream(maxSize);
+            var buffer = new byte[file.Size];
+            await stream.ReadAsync(buffer);
+
+            fotoBase64 = $"data:{file.ContentType};base64,{Convert.ToBase64String(buffer)}";
+
+            // Salvar no localStorage
+            await JS.InvokeVoidAsync("localStorage.setItem", "fichaFoto", fotoBase64);
+
+            StateHasChanged();
+        }
+    }
+
+    async Task ComecarAlterar(int direcao)
+    {
+        if (cts != null) return;
+
+        cts = new CancellationTokenSource();
+        var token = cts.Token;
+
+        int delay = 120;
+
+        try
+        {
+            while (!token.IsCancellationRequested)
+            {
+                await InvokeAsync(() =>
+                {
+                    HP += direcao;
+                    StateHasChanged();
+                });
+
+                await Task.Delay(delay, token);
+            }
+        }
+        catch (TaskCanceledException) { }
+    }
+
+    void PararAlterar()
+    {
+        cts?.Cancel();
+        cts = null;
+    }
+    
+    void OnHpEditado(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out int valor))
+        {
+            HP = valor;
+=======
+{
+    string json = await JS.InvokeAsync<string>("localStorage.getItem", "fichaDND");
+    if (!string.IsNullOrEmpty(json))
+    {
+        var ficha = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(json);
+
+        campanha = ficha["campanha"]?.ToString() ?? "";
+        jogador = ficha["jogador"]?.ToString() ?? "";
+        personagem = ficha["personagem"]?.ToString() ?? "";
+
+        Classe = ficha["Classe"]?.ToString() ?? "";
+        Subclasse = ficha["Subclasse"]?.ToString() ?? "";
+
+        // Corrige int.TryParse para propriedades usando variável temporária
+        if (int.TryParse(ficha["Nivel"]?.ToString(), out int nivelTemp))
+            Nivel = nivelTemp;
+
+        Raca = ficha["Raca"]?.ToString() ?? "";
+        Antecedente = ficha["Antecedente"]?.ToString() ?? "";
+        Tendencia = ficha["Tendencia"]?.ToString() ?? "";
+
+        caracteristicasFisicas = ficha["caracteristicasFisicas"]?.ToString() ?? "";
+        historia = ficha["historia"]?.ToString() ?? "";
+
+        if (int.TryParse(ficha["forca"]?.ToString(), out int forcaTemp))
+            forca = forcaTemp;
+        if (int.TryParse(ficha["destreza"]?.ToString(), out int destrezaTemp))
+            destreza = destrezaTemp;
+        if (int.TryParse(ficha["constituicao"]?.ToString(), out int constituicaoTemp))
+            constituicao = constituicaoTemp;
+        if (int.TryParse(ficha["inteligencia"]?.ToString(), out int inteligenciaTemp))
+            inteligencia = inteligenciaTemp;
+        if (int.TryParse(ficha["sabedoria"]?.ToString(), out int sabedoriaTemp))
+            sabedoria = sabedoriaTemp;
+        if (int.TryParse(ficha["carisma"]?.ToString(), out int carismaTemp))
+            carisma = carismaTemp;
+
+        pericias = ficha["pericias"]?.ToString() ?? "";
+        idiomas = ficha["idiomas"]?.ToString() ?? "";
+        inventario = ficha["inventario"]?.ToString() ?? "";
+        magias = ficha["magias"]?.ToString() ?? "";
+    }
+}
+
+
+   // Abre o seletor de arquivos chamando JS
+async Task AbrirInputFile()
+{
+    await JS.InvokeVoidAsync("clicarInputFile", "inputFoto");
+}
+
+// Carrega a imagem selecionada e salva no localStorage
+async Task CarregarFoto(InputFileChangeEventArgs e)
+{
+    var file = e.File;
+    if (file != null)
+    {
+        // Limitar tamanho para evitar travamento
+        long maxSize = 2 * 1024 * 1024; // 2MB
+        var stream = file.OpenReadStream(maxSize);
+        var buffer = new byte[file.Size];
+        await stream.ReadAsync(buffer);
+
+        fotoBase64 = $"data:{file.ContentType};base64,{Convert.ToBase64String(buffer)}";
+
+        // Salvar no localStorage
+        await JS.InvokeVoidAsync("localStorage.setItem", "fichaFoto", fotoBase64);
+
+        StateHasChanged();
+    }
+}
+
+    async Task Anterior()
+    {
+        if (abaAtual > 0)
+        {
+            abaAtual--;
+            await JS.InvokeVoidAsync("playPageSound");
+        }
+    }
+
+    async Task Proxima()
+    {
+        if (abaAtual < abas.Length - 1)
+        {
+            abaAtual++;
+            await JS.InvokeVoidAsync("playPageSound");
+>>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
+        }
+    }
+}
