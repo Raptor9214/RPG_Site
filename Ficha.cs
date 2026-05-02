@@ -14,20 +14,8 @@ namespace RPG_Site
         public string Antecedente { get; set; } = "";
         public string Tendencia { get; set; } = "";
 
-<<<<<<< HEAD
         // História
         public string Descricao { get; set; }
-=======
-        // Características físicas
-        public string Altura { get; set; }
-        public string Peso { get; set; }
-        public string Olhos { get; set; }
-        public string Cabelo { get; set; }
-        public string Pele { get; set; }
-
-        // História
-        public string Historia { get; set; }
->>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
 
         // Atributos
         public int Forca { get; set; }
@@ -40,11 +28,7 @@ namespace RPG_Site
         // Perícias / Idiomas / Inventário
         public string Pericias { get; set; }
         public string Idiomas { get; set; }
-<<<<<<< HEAD
         public string Itens { get; set; }
         public string Feiticos { get; set; }
-=======
-        public string Inventario { get; set; }
->>>>>>> a59d502b9c745141785b856f3c97f11d1f6c2637
     }
 }
