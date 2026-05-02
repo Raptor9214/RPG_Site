@@ -1,1 +1,0 @@
-C:\C# Vs code\RPG_Site\publish\web.config
